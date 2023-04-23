@@ -3,7 +3,7 @@
 
 
 /* Version number displayed in the title bar */
-#define VERSION_NUMBER "3.9.8b"
+#define VERSION_NUMBER "3.9.8c"
 
 /* Color of the background */
 // #define BACKGROUND_COLOR  Qt::white

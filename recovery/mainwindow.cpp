@@ -541,7 +541,6 @@ MainWindow::MainWindow(const QString &drive, const QString &defaultDisplay, KSpl
         if (end != -1)
             end = end-pos-searchForLen;
         QString selection  = cmdline.mid(pos+searchForLen, end);
-
         qDebug()<<"Processing Selection: " <<selection;
 
         QStringList args = selection.split(",", QString::SkipEmptyParts);
@@ -598,6 +597,13 @@ MainWindow::MainWindow(const QString &drive, const QString &defaultDisplay, KSpl
     {
         /* If silentinstall is specified, auto-install single image in /os */
         _allowSilent = true;
+    }
+
+    if (cmdline.contains("silentbackup"))
+    {
+        /* If silentbackup is specified, auto-backup selected OSes */
+        //_allowSilent = true;
+        silentbackup = true;
     }
 
     //ALWAYS start networking (for silentinstall of remote images)
@@ -3779,6 +3785,12 @@ void MainWindow::pollForNewDisks()
                     //addInstalledImages();   //Update the installed lists
                     //updateInstalledStatus();
                 }
+
+                if ((silentbackup) && (_numInstalledOS) && (ug->count() >= 1))
+                {
+                    on_actionBackup_triggered();
+                }
+
 
                 //Check for silentreinstallnewer option
                 QString cmdline = getFileContents("/proc/cmdline");
