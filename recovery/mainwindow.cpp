@@ -154,7 +154,7 @@ MainWindow::MainWindow(const QString &drive, const QString &defaultDisplay, KSpl
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     _qpd(NULL), _qpssd(NULL), _qpdup(NULL), _kcpos(0), _defaultDisplay(defaultDisplay),
-    _silent(false), _allowSilent(false), _showAll(false), _fixate(false), _splash(splash), _settings(NULL),
+    _silent(false), _allowSilent(false), _showAll(false), _fixate(false), _splash(splash), _settings(NULL), _silentbackup(false),
     _hasWifi(false), _numInstalledOS(0), _numBootableOS(0), _devlistcount(0), _netaccess(NULL), _displayModeBox(NULL), _drive(drive),
     _bootdrive(drive), _noobsconfig(noobsconfig), _numFilesToCheck(0), _eDownloadMode(MODE_INSTALL), _proc(NULL)
 {
@@ -603,7 +603,7 @@ MainWindow::MainWindow(const QString &drive, const QString &defaultDisplay, KSpl
     {
         /* If silentbackup is specified, auto-backup selected OSes */
         //_allowSilent = true;
-        silentbackup = true;
+        _silentbackup = true;
     }
 
     //ALWAYS start networking (for silentinstall of remote images)
@@ -1532,6 +1532,12 @@ void MainWindow::onCompleted(int arg)
     closeDialogs();
     setEnabled(true);
     show();
+
+    if (_silent && _silentbackup && _numBootableOS)
+    {
+        close();
+        QApplication::quit();
+    }
     _silent=false;
 
     if ((_eDownloadMode == MODE_INSTALL) || (_eDownloadMode == MODE_REPLACE) || (_eDownloadMode == MODE_REINSTALLNEWER))
@@ -3498,6 +3504,7 @@ void MainWindow::startImageDownload()
 
 void MainWindow::startImageBackup()
 {
+    TRACE
     _piDrivePollTimer.stop();
     // The drive is already mounted R/W from on_actionBackup_triggered
 
@@ -3595,14 +3602,15 @@ void MainWindow::startImageBackup()
                 +tr(" MB of backup space, but only ")
                 +QString::number(_availableDownloadMB)
                 +tr(" MB is available. This is only an estimate. If you continue, the backup may not complete successfully.\n\nDo you want to continue?");
-        if (QMessageBox::warning(this, tr("WARNING: Backup Space"),message,QMessageBox::Yes|QMessageBox::No, QMessageBox::No) == QMessageBox::No)
+        if ( !_silent || QMessageBox::warning(this, tr("WARNING: Backup Space"),message,QMessageBox::Yes|QMessageBox::No, QMessageBox::No) == QMessageBox::No)
         {
             setEnabled(false);
             return;
         }
     }
 
-    QMessageBox::information(this, tr("Backup Info"), tr("Always test your backups before relying on them"), QMessageBox::Ok);
+    if (!_silent)
+        QMessageBox::information(this, tr("Backup Info"), tr("Always test your backups before relying on them"), QMessageBox::Ok);
 
     if (slidesFolders.isEmpty())
         slidesFolder.append("/mnt/defaults/slides");
@@ -3626,6 +3634,7 @@ void MainWindow::startImageBackup()
     hide();
     _qpssd->exec();
     show();
+
 
     //QProcess::execute("mount -o remount,ro /mnt");
 }
@@ -3699,152 +3708,6 @@ void MainWindow::pollForNewDisks()
             _info->hide();
             _info->deleteLater();
             _info=NULL;
-        }
-    }
-
-    if (_selectImages || _selectOsList.count())
-    {   //We asked for some autoselection when there is no OS installed, and at least one available
-        qDebug() <<"Waiting for OSes..." << _waitforImages << " Got " <<_processedImages;
-        if ( (_processedImages & _waitforImages) == _waitforImages)
-        {   //All required sources have been processed (see _availableImages for those that are present)
-            //if ( (_waitforImages & ALLNETWORK ==0) || _networkup)
-            {
-                qDebug() <<"Selecting OSes...";
-
-                QList<QListWidgetItem *> all = ug->allItems();
-                foreach (QListWidgetItem * witem, all)
-                {
-                    QVariantMap existing_details = witem->data(Qt::UserRole).toMap();
-
-                    witem->setCheckState(Qt::Unchecked);
-
-                    if ((existing_details["source"].toString()==SOURCE_SDCARD) && (_selectImages & ALLSD))
-                    {
-                        witem->setCheckState(Qt::Checked); //No option for SOURCE_USB, so we'll assume it's the same as SOURCE_SD
-                        qDebug() <<"  " << existing_details["name"].toString() << "  " << "(allsd)";
-                    }
-
-                    if ((existing_details["source"].toString()==SOURCE_USB) && (_selectImages & ALLUSB))
-                    {
-                        witem->setCheckState(Qt::Checked);
-                        qDebug() <<"  " << existing_details["name"].toString() << "  " << "(allusb)";
-                    }
-
-                    if ((existing_details["source"].toString()==SOURCE_NETWORK) && (_selectImages & ALLNETWORK))
-                    {
-                        witem->setCheckState(Qt::Checked);
-                        qDebug() <<"  " << existing_details["name"].toString() << "  " << "(allnetwork)";
-                    }
-
-                    if ((existing_details["installed"].toBool()==true) && (_selectImages & ALLINSTALLED))
-                    {
-                        witem->setCheckState(Qt::Checked);
-                        qDebug() <<"  " << existing_details["name"].toString() << "  " << "(allinstalled)";
-                    }
-
-
-                    foreach (QString osname, _selectOsList)
-                    {
-                        if (existing_details["name"].toString()== osname)
-                        {
-                            witem->setCheckState(Qt::Checked);
-                            qDebug() <<"  " << existing_details["name"].toString();
-                        }
-                    }
-
-                }
-
-                //Also, Select any installed os names that match the `select` parameter
-                qDebug() <<"Selecting installed OSes...";
-                for (int i=0; i< ug->listInstalled->count(); i++)
-                {
-                    QListWidgetItem * witem = ug->listInstalled->item(i);
-                    witem->setCheckState(Qt::Unchecked);
-                    QVariantMap installed_os = witem->data(Qt::UserRole).toMap();
-                    foreach (QString osname, _selectOsList)
-                    {
-                        qDebug()<<"Checking "+installed_os["name"].toString()+" vs "+osname;
-                        if ( CORE(installed_os["name"].toString())== osname)
-                        {
-                            qDebug() << "found";
-                            witem->setCheckState(Qt::Checked);
-                        }
-                    }
-                }
-
-                _selectImages=0; //Prevent re-entry
-                _selectOsList.clear();
-
-                //Check for silentinstall & install them
-                if ((_allowSilent) && !_numInstalledOS &&  ug->count() >= 1)
-                {   //silentInstall was selected, so let's auto-install them
-                    _silent=true;
-                    counter.stopCountdown();
-                    on_actionWrite_image_to_disk_triggered();
-                    //Following will be done in onCompleted()
-                    //addInstalledImages();   //Update the installed lists
-                    //updateInstalledStatus();
-                }
-
-                if ((silentbackup) && (_numInstalledOS) && (ug->count() >= 1))
-                {
-                    on_actionBackup_triggered();
-                }
-
-
-                //Check for silentreinstallnewer option
-                QString cmdline = getFileContents("/proc/cmdline");
-                int nReinstalls=0;
-                if (cmdline.contains("silentreinstallnewer"))
-                {   //Restrict the items to those that have newer versions
-                    QList<QListWidgetItem *> select = ug->selectedInstalledItems();
-                    nReinstalls = select.count();
-
-                    foreach (QListWidgetItem * witem, select)
-                    {
-                        QVariantMap selected_os = witem->data(Qt::UserRole).toMap();
-                        QString installedName = CORE(selected_os["name"].toString());
-                        qDebug() <<"Searching for "+installedName;
-                        QListWidgetItem * matchItem = ug->findItemByDataName(installedName);
-                        if (matchItem)
-                        {
-                            qDebug() << "found";
-                            QVariantMap matchEntry = matchItem->data(Qt::UserRole).toMap();
-                            if (selected_os["release_date"].toString() >= matchEntry["release_date"].toString() )
-                            {
-                                witem->setCheckState(Qt::Unchecked);
-                                nReinstalls--;
-                                qDebug() <<"Deselecting " << selected_os["name"].toString();
-                            }
-                            else
-                                qDebug() << " X " << installedName;
-                        }
-                        else
-                        {
-                            witem->setCheckState(Qt::Unchecked);
-                            nReinstalls--;
-                            qDebug() <<"No replacement for " << selected_os["name"].toString();
-                        }
-                    }
-
-                    if (nReinstalls)
-                    {
-                        _silent=true;
-                        qDebug() <<"Silently re-installing updates";
-
-                        //on_actionReinstall_triggered();
-                        _eDownloadMode = MODE_REINSTALLNEWER;
-                        counter.stopCountdown();
-                        doReinstall();
-
-                        //Following will be done in onCompleted()
-                        //addInstalledImages();   //Update the installed lists
-                        //updateInstalledStatus();
-                    }
-                    else
-                        qDebug() <<"No new updates";
-                }
-            }
         }
     }
 
@@ -3934,6 +3797,157 @@ void MainWindow::pollForNewDisks()
         _devlistcount = list.count();
     }
 
+
+    if (_selectImages || _selectOsList.count())
+    {   //We asked for some autoselection when there is no OS installed, and at least one available
+        qDebug() <<"Waiting for OSes..." << _waitforImages << " Got " <<_processedImages;
+        if ( (_processedImages & _waitforImages) == _waitforImages)
+        {   //All required sources have been processed (see _availableImages for those that are present)
+            //if ( (_waitforImages & ALLNETWORK ==0) || _networkup)
+            {
+                qDebug() <<"Selecting OSes...";
+
+                QList<QListWidgetItem *> all = ug->allItems();
+                foreach (QListWidgetItem * witem, all)
+                {
+                    QVariantMap existing_details = witem->data(Qt::UserRole).toMap();
+
+                    witem->setCheckState(Qt::Unchecked);
+
+                    if ((existing_details["source"].toString()==SOURCE_SDCARD) && (_selectImages & ALLSD))
+                    {
+                        witem->setCheckState(Qt::Checked); //No option for SOURCE_USB, so we'll assume it's the same as SOURCE_SD
+                        qDebug() <<"  " << existing_details["name"].toString() << "  " << "(allsd)";
+                    }
+
+                    if ((existing_details["source"].toString()==SOURCE_USB) && (_selectImages & ALLUSB))
+                    {
+                        witem->setCheckState(Qt::Checked);
+                        qDebug() <<"  " << existing_details["name"].toString() << "  " << "(allusb)";
+                    }
+
+                    if ((existing_details["source"].toString()==SOURCE_NETWORK) && (_selectImages & ALLNETWORK))
+                    {
+                        witem->setCheckState(Qt::Checked);
+                        qDebug() <<"  " << existing_details["name"].toString() << "  " << "(allnetwork)";
+                    }
+
+                    if ((existing_details["installed"].toBool()==true) && (_selectImages & ALLINSTALLED))
+                    {
+                        witem->setCheckState(Qt::Checked);
+                        qDebug() <<"  " << existing_details["name"].toString() << "  " << "(allinstalled)";
+                    }
+
+
+                    foreach (QString osname, _selectOsList)
+                    {
+                        if (existing_details["name"].toString()== osname)
+                        {
+                            witem->setCheckState(Qt::Checked);
+                            qDebug() <<"  " << existing_details["name"].toString();
+                        }
+                    }
+
+                }
+
+                //Also, Select any installed os names that match the `select` parameter
+                qDebug() <<"Selecting installed OSes...";
+                for (int i=0; i< ug->listInstalled->count(); i++)
+                {
+                    QListWidgetItem * witem = ug->listInstalled->item(i);
+                    witem->setCheckState(Qt::Unchecked);
+                    QVariantMap installed_os = witem->data(Qt::UserRole).toMap();
+                    foreach (QString osname, _selectOsList)
+                    {
+                        qDebug()<<"Checking "+installed_os["name"].toString()+" vs "+osname;
+                        if ( CORE(installed_os["name"].toString())== osname)
+                        {
+                            qDebug() << "found";
+                            witem->setCheckState(Qt::Checked);
+                        }
+                    }
+                }
+
+                _selectImages=0; //Prevent re-entry
+                _selectOsList.clear();
+
+                //Check for silentinstall & install them
+                if ((_allowSilent) && !_numInstalledOS &&  ug->count() >= 1)
+                {   //silentInstall was selected, so let's auto-install them
+                    _silent=true;
+                    counter.stopCountdown();
+                    on_actionWrite_image_to_disk_triggered();
+                    //Following will be done in onCompleted()
+                    //addInstalledImages();   //Update the installed lists
+                    //updateInstalledStatus();
+                }
+
+                if ((_silentbackup) && (_numInstalledOS))
+                {
+                    qDebug() << "SilentBackup: Triggered";
+                    _silent=true;
+                    counter.stopCountdown();
+                    on_actionBackup_triggered();
+                    _silent=false;
+                    _silentbackup=false;
+                }
+
+
+                //Check for silentreinstallnewer option
+                QString cmdline = getFileContents("/proc/cmdline");
+                int nReinstalls=0;
+                if (cmdline.contains("silentreinstallnewer"))
+                {   //Restrict the items to those that have newer versions
+                    QList<QListWidgetItem *> select = ug->selectedInstalledItems();
+                    nReinstalls = select.count();
+
+                    foreach (QListWidgetItem * witem, select)
+                    {
+                        QVariantMap selected_os = witem->data(Qt::UserRole).toMap();
+                        QString installedName = CORE(selected_os["name"].toString());
+                        qDebug() <<"Searching for "+installedName;
+                        QListWidgetItem * matchItem = ug->findItemByDataName(installedName);
+                        if (matchItem)
+                        {
+                            qDebug() << "found";
+                            QVariantMap matchEntry = matchItem->data(Qt::UserRole).toMap();
+                            if (selected_os["release_date"].toString() >= matchEntry["release_date"].toString() )
+                            {
+                                witem->setCheckState(Qt::Unchecked);
+                                nReinstalls--;
+                                qDebug() <<"Deselecting " << selected_os["name"].toString();
+                            }
+                            else
+                                qDebug() << " X " << installedName;
+                        }
+                        else
+                        {
+                            witem->setCheckState(Qt::Unchecked);
+                            nReinstalls--;
+                            qDebug() <<"No replacement for " << selected_os["name"].toString();
+                        }
+                    }
+
+                    if (nReinstalls)
+                    {
+                        _silent=true;
+                        qDebug() <<"Silently re-installing updates";
+
+                        //on_actionReinstall_triggered();
+                        _eDownloadMode = MODE_REINSTALLNEWER;
+                        counter.stopCountdown();
+                        doReinstall();
+
+                        //Following will be done in onCompleted()
+                        //addInstalledImages();   //Update the installed lists
+                        //updateInstalledStatus();
+                    }
+                    else
+                        qDebug() <<"No new updates";
+                }
+            }
+        }
+    }
 }
 
 bool MainWindow::LooksLikePiDrive(QString devname)
@@ -4045,7 +4059,7 @@ void MainWindow::on_targetComboUsb_currentIndexChanged(int index)
 /* Add an image as an QListWidgetItem to the list widgets that hold the new installable OSes */
 void MainWindow::addImage(QVariantMap& m, QIcon &icon, bool &bInstalled)
 {
-    TRACE
+    TRACEIF(0)
     OverrideJson(m);
     QString name = m.value("name").toString();
     QString folder  = m.value("folder").toString();
@@ -5005,7 +5019,7 @@ void MainWindow::on_actionRepair_triggered()
 
 void MainWindow::on_actionBackup_triggered()
 {
-
+    TRACE
     _eDownloadMode = MODE_BACKUP;
 
     _local = "/tmp/media/"+partdev(_osdrive,1);
@@ -5077,7 +5091,7 @@ void MainWindow::on_actionBackup_triggered()
                     //Get date/time
                     QDateTime tnow = QDateTime::currentDateTime();
                     QString now = "#" + tnow.toString("yyyyMMdd")+"-"+tnow.toString("hhmmss");;
-                    while (now.left(5)=="#1970")
+                    while ( !_silent && now.left(5)=="#1970")
                     {
                         qDebug() << "Current time is not known";
                         //Open dialog to request current date.
@@ -5113,7 +5127,7 @@ void MainWindow::on_actionBackup_triggered()
 
                     //Dialog to update backupname, name & description
                     backupdialog dlg (entry, NULL);
-                    if (QDialog::Rejected == dlg.exec())
+                    if ( !_silent && QDialog::Rejected == dlg.exec())
                     {
                         setEnabled(true);
                         return;
@@ -5165,7 +5179,7 @@ void MainWindow::on_actionBackup_triggered()
                     cmd = "cp "+ settingsFolder+"/release_notes.txt "+backupFolder;
                     QProcess::execute(cmd); //Not critical
 
-                    if (errors)
+                    if ( !_silent || errors)
                     {
                         QMessageBox::critical(this,tr("Backup OSes"),"An error occurred backing up. Perhaps there is no disk space?", QMessageBox::Cancel);
                         setEnabled(true);

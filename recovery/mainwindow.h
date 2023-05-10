@@ -68,7 +68,7 @@ protected:
     int _infoDelay;
     int _kcpos;
     const QString _defaultDisplay;
-    bool _silent, _allowSilent, _showAll, _fixate, _usbimages, _sdimages;
+    bool _silent, _allowSilent, _showAll, _fixate, _usbimages, _sdimages, _silentbackup;
     static bool _partInited;
     static int _currentMode;
     KSplash *_splash;

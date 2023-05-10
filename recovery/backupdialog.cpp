@@ -3,12 +3,19 @@
 #include "util.h"
 #include "ui_backupdialog.h"
 
-#include <QDebug>
+//#include <QDebug>
+#define LOCAL_DBG_ON   1
+#define LOCAL_DBG_FUNC 1
+#define LOCAL_DBG_OUT  1
+#define LOCAL_DBG_MSG  1
+
+#include "mydebug.h"
 
 backupdialog::backupdialog(QVariantMap &Map, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::backupdialog), _map(Map)
 {
+    TRACE
     ui->setupUi(this);
 
     QString description;
