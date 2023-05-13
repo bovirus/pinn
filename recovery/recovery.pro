@@ -150,7 +150,6 @@ FORMS    += \
     progressslideshowdialog.ui \
     confeditdialog.ui \
     bootselectiondialog.ui \
-    silentbackupdlg.ui \
     wifisettingsdialog.ui \
     passwd.ui \
     piclonedialog.ui \

@@ -2,27 +2,22 @@
 #define SILENTBACKUPDLG_H
 #include "countdownfilter.h"
 
-#include <QDialog>
+#include <QProgressDialog>
 
-namespace Ui {
-class SilentBackupDlg;
-}
-
-class SilentBackupDlg : public QDialog
+class SilentBackupDlg : public QProgressDialog
 {
     Q_OBJECT
 
 public:
     explicit SilentBackupDlg(QWidget *parent = 0);
     ~SilentBackupDlg();
-    virtual void accept();
 
 protected slots:
     void countdown(int);
     void countdownExpired();
 
 private:
-    Ui::SilentBackupDlg *ui;
+    //Ui::SilentBackupDlg *ui;
     CountdownFilter _counter;
 
 };

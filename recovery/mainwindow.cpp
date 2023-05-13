@@ -3900,7 +3900,9 @@ void MainWindow::pollForNewDisks()
 
                     SilentBackupDlg dlg;
                     int result = dlg.exec();
-                    if (result==QDialog::Accepted)
+                    qDebug()<<"Result="<<result;
+                    qDebug()<<"WasCanceled? "<<dlg.wasCanceled();
+                    if ( !dlg.wasCanceled())
                         on_actionBackup_triggered();
                     _silent=false;
                     _silentbackup=false;
