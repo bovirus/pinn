@@ -244,6 +244,16 @@
              </property>
             </widget>
            </item>
+           <item row="6" column="3">
+            <widget class="QCheckBox" name="cb_silentbackup">
+             <property name="toolTip">
+              <string>Automatically reinstalls any selected OSes if newer versions exist</string>
+             </property>
+             <property name="text">
+              <string>silentbacku&amp;p</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>

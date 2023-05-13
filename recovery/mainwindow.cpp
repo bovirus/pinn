@@ -34,6 +34,7 @@
 #include "dlginstall.h"
 #include "sleepsimulator.h"
 #include "adjustsizes.h"
+#include "silentbackupdlg.h"
 
 #define LOCAL_DBG_ON   0
 #define LOCAL_DBG_FUNC 0
@@ -581,7 +582,7 @@ MainWindow::MainWindow(const QString &drive, const QString &defaultDisplay, KSpl
             }
             else if (arg=="allinstalled")
             {
-                _waitforImages |= ALLINSTALLED;
+                _selectImages |= ALLINSTALLED;
             }
             else
             {
@@ -3595,7 +3596,7 @@ void MainWindow::startImageBackup()
     }
 
     backupSpaceMB /= 3; //conservative estimate gzip compression
-    if (backupSpaceMB > _availableDownloadMB)
+    if ((!_silent) && (backupSpaceMB > _availableDownloadMB))
     {
         QString message = tr("This backup may require ")
                 +QString::number(backupSpaceMB)
@@ -3857,14 +3858,23 @@ void MainWindow::pollForNewDisks()
                     QListWidgetItem * witem = ug->listInstalled->item(i);
                     witem->setCheckState(Qt::Unchecked);
                     QVariantMap installed_os = witem->data(Qt::UserRole).toMap();
+
+                    if ((_selectImages & ALLINSTALLED) && (i>0)) //avoid PINN
+                    {
+                        qDebug() << "Selecting installed " << CORE(installed_os["name"].toString());
+                        witem->setCheckState(Qt::Checked);
+                    }
+
                     foreach (QString osname, _selectOsList)
                     {
+
                         qDebug()<<"Checking "+installed_os["name"].toString()+" vs "+osname;
                         if ( CORE(installed_os["name"].toString())== osname)
                         {
                             qDebug() << "found";
                             witem->setCheckState(Qt::Checked);
                         }
+
                     }
                 }
 
@@ -3887,7 +3897,11 @@ void MainWindow::pollForNewDisks()
                     qDebug() << "SilentBackup: Triggered";
                     _silent=true;
                     counter.stopCountdown();
-                    on_actionBackup_triggered();
+
+                    SilentBackupDlg dlg;
+                    int result = dlg.exec();
+                    if (result==QDialog::Accepted)
+                        on_actionBackup_triggered();
                     _silent=false;
                     _silentbackup=false;
                 }
@@ -5132,18 +5146,35 @@ void MainWindow::on_actionBackup_triggered()
                         setEnabled(true);
                         return;
                     }
-
                     backupName = entry.value("backupName").toString();
+
+                    if (_silent)
+                    {
+                        QStringList parts = splitNameParts(backupName);
+                        setNameParts(parts, eDATE, "silentBackup");
+                        backupName = joinNameParts(parts);
+                        entry["backupName"]   = backupName;
+                        entry["name"] = backupName;
+                    }
+
                     QString backupFolder = _local+"/os/" + getNameParts(backupName, eBASE|eDATE) + partnr;
                     backupFolder.replace(' ', '_'); //Reqd??
 
                     entry["backupFolder"] = backupFolder;
                     item->setData(Qt::UserRole, entry);
 
+                    QString cmd;
+                    if(_silent)
+                    {
+                        //is it necessary to remove backup folder contents first? Or will it overwrite?
+                        cmd = "rm -rf "+ backupFolder;
+                        QProcess::execute(cmd);
+                    }
+
+
                     //Don't need flavours because they would already have been applied
                     QString settingsFolder = "/settings/os/"+ CORE(entry.value("name").toString()).replace(' ', '_');
                     //Copy:
-                    QString cmd;
 
                     int errors =0;
                     cmd = "mkdir "+ backupFolder;
@@ -5179,11 +5210,13 @@ void MainWindow::on_actionBackup_triggered()
                     cmd = "cp "+ settingsFolder+"/release_notes.txt "+backupFolder;
                     QProcess::execute(cmd); //Not critical
 
-                    if ( !_silent || errors)
+                    if (errors)
                     {
-                        QMessageBox::critical(this,tr("Backup OSes"),"An error occurred backing up. Perhaps there is no disk space?", QMessageBox::Cancel);
+                        if (!_silent)
+                            QMessageBox::critical(this,tr("Backup OSes"),"An error occurred backing up. Perhaps there is no disk space?", QMessageBox::Cancel);
                         setEnabled(true);
-                        return;
+                        if (!_silent)
+                            return;
                     }
                 }
             }

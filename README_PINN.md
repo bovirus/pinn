@@ -489,7 +489,7 @@ The following is a complete list of all the PINN options that can be added to th
 
 - **silentinstall**: Allows a single or multiple OSes to be installed automatically, useful during headless installs. See [How to Automatically Install OSes](#how-to-automatically-install-oses)
 
-- **select=\<oslist\>**: Auto-selects a number of OSes or OS sources to be installed. When used in conjunction with `silentinstall`, the OSes are automatically installed without any user intervention. See [How to Automatically Install OSes](#how-to-automatically-install-oses).  
+- **select=\<oslist\>**: Auto-selects a number of OSes or OS sources to be installed, entered as a quoted comma-separated list of osnames. When used in conjunction with `silentinstall`, the OSes are automatically installed without any user intervention. See [How to Automatically Install OSes](#how-to-automatically-install-oses).  
 In addition to specifying a list of OS names, some reserved words are also available to specify different sources of OSes instead, or to control when they are installed. 
   - `allinstalled` - Normally, all installed OSes are automatically selected, but they are not selected when the "select" option is present. Adding 'allinstalled' will ensure they are selected again.  
   - `allsd` - Selects all OSes where the most recent one is on the SD card
@@ -501,6 +501,8 @@ In addition to specifying a list of OS names, some reserved words are also avail
   - `waitall` - Waits for OSes from all sources to be listed
 
 - **silentreinstallnewer**: This is an advanced option and potentially _**Destructive to your data!**_. Do not use unless you are fully aware of its consequences. See [Auto-Reinstalling OSes](#auto-reinstalling-oses)
+
+- **silentbackup**: In conjunction with the `forcetrigger` and `select` options, this will cuase PINN to automatically backup selected OSes on startup. It will then reboot into the last used OS. This is a useful means to backup your OS whilst it is offline. See [Silent Backup](#how-to-automatically-backup-an-os)
 
 - **alt_image_source=\<url\>**: Provides the URL of an additional os_list_v3.json file indicating the location of other OSes that can be downloaded from the Internet. Multiple instances of this option can be used.
 
@@ -983,6 +985,10 @@ After backing up an OS prior to v3.0.1, it may not show up in the list of instal
 
 When an OS is backed up, an sha512sum signature checksum is calculated for each tarball which will be used to verify its correctness when next installed. See [File Signatures and Checksums](#file-signatures-and-checksums)
 
+
+## How to automatically backup an OS
+
+The `silentbackup` option makes use of PINN's OS backup feature to do an unattended offline OS backup initiated from the OS itself. 
 
 ## Restoring Backups
 
