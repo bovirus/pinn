@@ -988,7 +988,13 @@ When an OS is backed up, an sha512sum signature checksum is calculated for each 
 
 ## How to automatically backup an OS
 
-The `silentbackup` option makes use of PINN's OS backup feature to do an unattended offline OS backup initiated from the OS itself. 
+The `silentbackup` option makes use of PINN's OS backup feature to do an unattended offline OS backup initiated from the OS itself. The `forcetrigger` option also needs to be set and the `select` option should be used to determine which installed OSes shall be backed up.  
+A suitably formatted USB drive needs to be fitted with the mandatory `os` folder to store the backup on.  
+A cancel dialog is shown for 10 seconds before the backup is made. This is to allow the silentBackup to be manually aborted or altered.
+Unlike the normal backup option, there is no user input and it cannot be assumed that the network will be connected, so the current time may not be known. For these reasons, the date of the backed up OS is replaced with `#silentbackup` and any existing backup of the same name is first deleted. There is therefore only one backup of each OS that is continually replaced on each boot. If a more permanent backup is required, these folders should be backed up to another drive.
+
+After the backup is made, the RPi will be rebooted into the last OS that was run.
+
 
 ## Restoring Backups
 
