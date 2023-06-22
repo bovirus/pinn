@@ -600,7 +600,7 @@ MainWindow::MainWindow(const QString &drive, const QString &defaultDisplay, KSpl
         _allowSilent = true;
     }
 
-    if (cmdline.contains("silentbackup"))
+    if (cmdline.contains("silentbackup") || QFile::exists("/mnt/silentbackup"))
     {
         /* If silentbackup is specified, auto-backup selected OSes */
         //_allowSilent = true;
@@ -945,7 +945,7 @@ QMap<QString, QVariantMap> MainWindow::listImages(const QString &folder)
 
 void MainWindow::updateInstalledStatus()
 {
-
+    TRACE
     _numBootableOS = ug->updateInstalledStatus();
     qDebug() << "Number of bootables = "<<_numBootableOS;
     //@@ Maybe add: _numInstalledOS = ug->listInstalled->count();
@@ -3894,16 +3894,25 @@ void MainWindow::pollForNewDisks()
 
                 if ((_silentbackup) && (_numInstalledOS))
                 {
-                    qDebug() << "SilentBackup: Triggered";
                     _silent=true;
                     counter.stopCountdown();
 
                     SilentBackupDlg dlg;
                     int result = dlg.exec();
-                    qDebug()<<"Result="<<result;
-                    qDebug()<<"WasCanceled? "<<dlg.wasCanceled();
                     if ( !dlg.wasCanceled())
+                    {
+                        qDebug() << "SilentBackup: Triggered";
                         on_actionBackup_triggered();
+
+                        //Remove the silentbackup file so it only works once.
+                        if (QFile::exists("/mnt/silentbackup"))
+                        {
+                            QProcess::execute("mount -o remount,rw /mnt");
+                            Qfile:remove("/mnt/silentbackup");
+                            QProcess::execute("mount -o remount,ro /mnt");
+                        }
+
+                    }
                     _silent=false;
                     _silentbackup=false;
                 }
@@ -4293,7 +4302,7 @@ void MainWindow::newImage(QString Imagefile)
 
 void MainWindow::addImagesFromUSB(const QString &device)
 {
-
+    TRACE
     QDir dir;
     QString mntpath = "/tmp/media/"+device;
 
@@ -4422,6 +4431,9 @@ void MainWindow::on_actionClone_triggered()
     if (msgBox.exec() == QMessageBox::AcceptRole)
     {
         msgBox.close();
+
+        _piDrivePollTimer.stop();
+
         piCloneThread *cloneThread = new piCloneThread(src_dev, dst_dev, resize);
         QStringList DirList;
         setEnabled(false);
@@ -4448,6 +4460,9 @@ void MainWindow::onCloneCompleted()
     QMessageBox::information(this,
                              tr("Clone Completed"),
                              tr("Clone Completed Successfully"), QMessageBox::Ok);
+
+    _piDrivePollTimer.start(POLLTIME);
+
     _qpd->deleteLater();
     _qpd = NULL;
 }
