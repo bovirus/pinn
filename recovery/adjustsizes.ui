@@ -106,13 +106,35 @@
        </property>
       </widget>
      </item>
+
+
+<item>
+     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label">
+
+     <widget class="QLabel" name="label">
        <property name="text">
         <string>(*) non-expanding</string>
        </property>
       </widget>
      </item>
+     <item>
+
+       <widget class="QCheckBox" name="cbvk">
+          <property name="sizePolicy">
++          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
++           <horstretch>0</horstretch>
++           <verstretch>0</verstretch>
++          </sizepolicy>
++         </property>
++         <property name="text">
++          <string>Virtual Keyboard</string>
++         </property>
++        </widget>
+     </item>
+     </layout>
+     </item>
+
      <item alignment="Qt::AlignBottom">
       <widget class="QDialogButtonBox" name="buttonBox1">
        <property name="sizePolicy">
