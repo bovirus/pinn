@@ -24,6 +24,12 @@ adjustSizes::adjustSizes(uint provision, const QString &bootdrive, const QString
 
     _initialised=false;
     ui->setupUi(this);
+    setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+
+    _lastWidgetFocus = NULL;
+    virtualKeyBoard = new WidgetKeyboard(this);
+    _nav.setContext("adjustsizes","any");
+    pNav=NULL;
 
     uint totalnominalsize = 0, totaluncompressedsize = 0;
     uint startSector = getFileContents(sysclassblock(_drive, 5)+"/start").trimmed().toUInt()
@@ -171,6 +177,8 @@ void adjustSizes::on_tableWidget_cellChanged(int row, int column)
 
 adjustSizes::~adjustSizes()
 {
+    virtualKeyBoard->hide();
+    delete virtualKeyBoard;
     delete ui;
 }
 
@@ -244,3 +252,33 @@ void adjustSizes::on_buttonBox1_rejected()
     //qDebug() << "on_buttonBox_rejected";
 }
 
+void adjustSizes::on_cbvk_toggled(bool checked)
+{
+
+    if (checked)
+    {
+
+        if (_lastWidgetFocus)
+            _lastWidgetFocus->setFocus();
+
+        virtualKeyBoard->show();
+        if (pNav)
+            delete pNav;
+        pNav = new navigate("VKeyboard", "any", virtualKeyBoard);
+    }
+    else
+    {
+        virtualKeyBoard->hide();
+        if (pNav)
+        {
+            delete pNav;
+            pNav=NULL;
+        }
+    }
+}
+
+void adjustSizes::my_focusChanged(QWidget * old, QWidget* nw)
+{
+    if (nw == ui->cbvk)
+        _lastWidgetFocus = old;
+}

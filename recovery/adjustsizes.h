@@ -1,6 +1,9 @@
 #ifndef ADJUSTSIZES_H
 #define ADJUSTSIZES_H
 
+#include "WidgetKeyboard.h"
+#include "input.h"
+
 #include "config.h"
 #include "osinfo.h"
 #include "partitioninfo.h"
@@ -34,6 +37,8 @@ public:
 private slots:
     void on_buttonBox1_accepted();
     void on_buttonBox1_rejected();
+    void on_cbvk_toggled(bool checked);
+    void my_focusChanged(QWidget * old, QWidget* nw);
 
     void on_tableWidget_cellChanged(int row, int column);
     void on_clearPb_clicked();
@@ -60,6 +65,10 @@ private:
     QList<OsInfo *> _images;
     int _extraSpacePerPartition; //delete!
     bool _multiDrives;
+    WidgetKeyboard *virtualKeyBoard;
+    QWidget * _lastWidgetFocus;
+    navigate _nav;
+    navigate * pNav;
 };
 
 #endif // ADJUSTSIZES_H
