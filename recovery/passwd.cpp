@@ -12,6 +12,13 @@ Passwd::Passwd(QVariantMap Map, QWidget *parent) :
 {
     ui->setupUi(this);
     _map = Map;
+
+    _lastWidgetFocus = NULL;
+    virtualKeyBoard = new WidgetKeyboard(this);
+    _nav.setContext("passwd","any");
+    pNav=NULL;
+
+
     ui->checkBox->setChecked(false);
     _nScore = 0;
     _sComplexity = "Weak";
@@ -19,6 +26,8 @@ Passwd::Passwd(QVariantMap Map, QWidget *parent) :
 
 Passwd::~Passwd()
 {
+    virtualKeyBoard->hide();
+    delete virtualKeyBoard;
     delete ui;
 }
 
@@ -370,4 +379,35 @@ void Passwd::on_pushButton_clicked()
             }
         }
     }
+}
+
+void Passwd::on_cbvk_toggled(bool checked)
+{
+
+    if (checked)
+    {
+
+        if (_lastWidgetFocus)
+            _lastWidgetFocus->setFocus();
+
+        virtualKeyBoard->show();
+        if (pNav)
+            delete pNav;
+        pNav = new navigate("VKeyboard", "any", virtualKeyBoard);
+    }
+    else
+    {
+        virtualKeyBoard->hide();
+        if (pNav)
+        {
+            delete pNav;
+            pNav=NULL;
+        }
+    }
+}
+
+void Passwd::my_focusChanged(QWidget * old, QWidget* nw)
+{
+    if (nw == ui->cbvk)
+        _lastWidgetFocus = old;
 }

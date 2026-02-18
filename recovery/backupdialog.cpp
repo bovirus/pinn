@@ -15,6 +15,12 @@ backupdialog::backupdialog(QVariantMap &Map, QWidget *parent) :
     QString name;
     QString datetime;
 
+    _lastWidgetFocus = NULL;
+    virtualKeyBoard = new WidgetKeyboard(this);
+    _nav.setContext("backup","any");
+    pNav=NULL;
+
+
     QString fullname;
     if (_map.contains("backupName"))
         fullname = _map.value("backupName").toString();
@@ -34,6 +40,8 @@ backupdialog::backupdialog(QVariantMap &Map, QWidget *parent) :
 
 backupdialog::~backupdialog()
 {
+    virtualKeyBoard->hide();
+    delete virtualKeyBoard;
     delete ui;
 }
 
@@ -57,4 +65,35 @@ void backupdialog::on_buttonBox_accepted()
     //Update map with new name & Description
     _map["backupName"] = name; //@@ was .replace(" ","_")
     _map["description"] = description;
+}
+
+void backupdialog::on_cbvk_toggled(bool checked)
+{
+
+    if (checked)
+    {
+
+        if (_lastWidgetFocus)
+            _lastWidgetFocus->setFocus();
+
+        virtualKeyBoard->show();
+        if (pNav)
+            delete pNav;
+        pNav = new navigate("VKeyboard", "any", virtualKeyBoard);
+    }
+    else
+    {
+        virtualKeyBoard->hide();
+        if (pNav)
+        {
+            delete pNav;
+            pNav=NULL;
+        }
+    }
+}
+
+void backupdialog::my_focusChanged(QWidget * old, QWidget* nw)
+{
+    if (nw == ui->cbvk)
+        _lastWidgetFocus = old;
 }

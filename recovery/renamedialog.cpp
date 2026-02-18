@@ -16,6 +16,11 @@ renamedialog::renamedialog(QVariantMap Map, QWidget *parent) :
     QString name;
     QString alias;
 
+    _lastWidgetFocus = NULL;
+    virtualKeyBoard = new WidgetKeyboard(this);
+    _nav.setContext("rename","any");
+    pNav=NULL;
+
     if (_map.contains("name"))
     {
         QString fullname = _map.value("name").toString();
@@ -32,6 +37,8 @@ renamedialog::renamedialog(QVariantMap Map, QWidget *parent) :
 
 renamedialog::~renamedialog()
 {
+    virtualKeyBoard->hide();
+    delete virtualKeyBoard;
     delete ui;
 }
 
@@ -75,4 +82,35 @@ void renamedialog::on_buttonBox_accepted()
     }
 
     Json::saveToFile("/settings/installed_os.json", installed_os);
+}
+
+void renamedialog::on_cbvk_toggled(bool checked)
+{
+
+    if (checked)
+    {
+
+        if (_lastWidgetFocus)
+            _lastWidgetFocus->setFocus();
+
+        virtualKeyBoard->show();
+        if (pNav)
+            delete pNav;
+        pNav = new navigate("VKeyboard", "any", virtualKeyBoard);
+    }
+    else
+    {
+        virtualKeyBoard->hide();
+        if (pNav)
+        {
+            delete pNav;
+            pNav=NULL;
+        }
+    }
+}
+
+void renamedialog::my_focusChanged(QWidget * old, QWidget* nw)
+{
+    if (nw == ui->cbvk)
+        _lastWidgetFocus = old;
 }

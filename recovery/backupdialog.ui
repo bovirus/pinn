@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>backupdialog</class>
  <widget class="QDialog" name="backupdialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -120,6 +123,25 @@
    </property>
    <property name="text">
     <string>Description</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="cbvk">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>142</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string>Virtual Keyboard</string>
    </property>
   </widget>
  </widget>

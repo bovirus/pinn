@@ -1,6 +1,9 @@
 #ifndef PASSWD_H
 #define PASSWD_H
 
+#include "WidgetKeyboard.h"
+#include "input.h"
+
 #include <QDialog>
 #include <QVariantList>
 #include <QVariantMap>
@@ -33,12 +36,18 @@ private slots:
     void on_passwordEdit_2_textChanged(const QString &arg1);
 
     void on_pushButton_clicked();
+    void on_cbvk_toggled(bool checked);
+    void my_focusChanged(QWidget * old, QWidget* nw);
 
 private:
     Ui::Passwd *ui;
     int _nScore;
     QString _sComplexity;
     QVariantMap _map;
+    WidgetKeyboard *virtualKeyBoard;
+    QWidget * _lastWidgetFocus;
+    navigate _nav;
+    navigate * pNav;
 
 };
 
