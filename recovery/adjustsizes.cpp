@@ -190,7 +190,12 @@ void adjustSizes::calcTable()
         _spaces.at(row)->total_mb  = _spaces.at(row)->nominal_mb + _spaces.at(row)->extra_mb;
         _usedMB += _spaces.at(row)->total_mb;
     }
-    _freeMB = _availableMB - _usedMB-1;
+
+    //Allow for space between partitions.
+
+    _usedMB += _numparts * (PARTITION_ALIGNMENT/2048) +1; // +1MB to allow for the EBR (PARTITION_GAPS * number of OSes)
+
+    _freeMB = _availableMB - _usedMB;
 }
 
 void adjustSizes::on_balancePb_clicked()

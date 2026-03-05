@@ -3,7 +3,7 @@
 
 
 /* Version number displayed in the title bar */
-#define VERSION_NUMBER "3.9.8a"
+#define VERSION_NUMBER "3.9.8b"
 
 /* Color of the background */
 // #define BACKGROUND_COLOR  Qt::white
@@ -51,8 +51,8 @@
 #define MAXIMUM_BOOTFILES_SIZE  128
 
 /* Partitioning settings */
-#define PARTITION_ALIGNMENT  8192
-#define PARTITION_GAP  2
+#define PARTITION_ALIGNMENT  8192 /* sectors */
+#define PARTITION_GAP  2 /* sectors */
 /* Allow partitions to be shrunk PARTITION_GAP sectors
    if that prevents having a 4 MiB gap between the next one */
 #define SHRINK_PARTITIONS_TO_MINIMIZE_GAPS
