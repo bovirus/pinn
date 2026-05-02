@@ -5,7 +5,7 @@
     <name>BackupThread</name>
     <message>
         <source>Finish writing (sync)</source>
-        <translation> Schreibvorgang abschließen (sync)</translation>
+        <translation>Schreibvorgang abschließen (sync)</translation>
     </message>
     <message>
         <source>Cannot backup </source>
@@ -443,7 +443,7 @@ Achtung: Dies löscht alle Daten auf dieser SD-Karte.</translation>
     <message>
         <source>Set Date &amp; Time</source>
         <oldsource>Set Data &amp; Time</oldsource>
-        <translation type="unfinished">Datum und Uhrzeit einstellen</translation>
+        <translation>Datum und Uhrzeit einstellen</translation>
     </message>
     <message>
         <source>T</source>
@@ -872,11 +872,11 @@ Soll fortgesetzt werden?</translation>
     </message>
     <message>
         <source>Error downloading update file</source>
-        <translation>Fehler beim Herunterladen der Update-Datei</translation>
+        <translation>Fehler beim Herunterladen der Updatedatei</translation>
     </message>
     <message>
         <source>PINN Update Check</source>
-        <translation>PINN Update-Prüfung</translation>
+        <translation>PINN-Updateprüfung</translation>
     </message>
     <message>
         <source>Error contacting update server</source>
@@ -884,11 +884,11 @@ Soll fortgesetzt werden?</translation>
     </message>
     <message>
         <source>PINN will now update and reboot in a few secs...</source>
-        <translation type="unfinished"></translation>
+        <translation>PINN wird jetzt aktualisiert und in wenigen Sekunden rebooten …</translation>
     </message>
     <message>
         <source>PINN update failed</source>
-        <translation type="unfinished"></translation>
+        <translation>PINN-Update fehlgeschlagen</translation>
     </message>
     <message>
         <source>No updates available</source>
@@ -896,19 +896,19 @@ Soll fortgesetzt werden?</translation>
     </message>
     <message>
         <source>Executing preupdate</source>
-        <translation type="unfinished"></translation>
+        <translation>Pre-Update wird ausgeführt</translation>
     </message>
     <message>
         <source>Extracting update</source>
-        <translation type="unfinished"></translation>
+        <translation>Update wird extrahiert</translation>
     </message>
     <message>
         <source>PINN UPDATE</source>
-        <translation>PINN UPDATE</translation>
+        <translation>PINN-UPDATE</translation>
     </message>
     <message>
         <source>A new version of PINN is available</source>
-        <translation>Eine neue Version von PINN ist verfügbar</translation>
+        <translation>Eine neue PINN-Version ist verfügbar</translation>
     </message>
     <message>
         <source>Do you want to download this version?</source>
@@ -943,15 +943,15 @@ Soll fortgesetzt werden?</translation>
     </message>
     <message>
         <source>install</source>
-        <translation>installieren</translation>
+        <translation>Installation</translation>
     </message>
     <message>
         <source>reinstall</source>
-        <translation>neu installieren</translation>
+        <translation>Neuinstallation</translation>
     </message>
     <message>
         <source>replace</source>
-        <translation>ersetzen</translation>
+        <translation>Ersetzen</translation>
     </message>
     <message>
         <source>USB drive</source>
@@ -1027,7 +1027,7 @@ Ein erneutes Booten dieses Laufwerks stellt die Partitionsstruktur von PINN wied
     </message>
     <message>
         <source>Executing postupdate</source>
-        <translation type="unfinished"></translation>
+        <translation>Post-Update wird ausgeführt</translation>
     </message>
 </context>
 <context>
@@ -1667,15 +1667,15 @@ Partition ist für das neue Image nicht groß genug.</translation>
     </message>
     <message>
         <source>windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows</translation>
     </message>
     <message>
         <source>motif</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif</translation>
     </message>
     <message>
         <source>platinum</source>
-        <translation type="unfinished"></translation>
+        <translation>Platinum</translation>
     </message>
     <message>
         <source>WARNING</source>
@@ -1688,6 +1688,10 @@ Are you sure?</source>
         <translation>Warnung: Es wurde die Option »runinstaller« gewählt.
 Damit werden beim nächsten Booten alle installierten Betriebssysteme gelöscht.
 Sicher, dass das gewollt ist?</translation>
+    </message>
+    <message>
+        <source>silentbacku&amp;p</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1706,7 +1710,7 @@ Sicher, dass das gewollt ist?</translation>
     </message>
     <message>
         <source>Minimal</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimal</translation>
     </message>
     <message>
         <source>Education</source>
@@ -1718,19 +1722,19 @@ Sicher, dass das gewollt ist?</translation>
     </message>
     <message>
         <source>Utility</source>
-        <translation type="unfinished"></translation>
+        <translation>Utility</translation>
     </message>
     <message>
         <source>Testing</source>
-        <translation type="unfinished"></translation>
+        <translation>Testen</translation>
     </message>
     <message>
         <source>Legacy</source>
-        <translation type="unfinished"></translation>
+        <translation>Legacy</translation>
     </message>
     <message>
         <source>Sailing</source>
-        <translation type="unfinished"></translation>
+        <translation>Segeln</translation>
     </message>
     <message>
         <source>RECOMMENDED</source>
@@ -1750,7 +1754,7 @@ Sicher, dass das gewollt ist?</translation>
     </message>
     <message>
         <source>Backups</source>
-        <translation type="unfinished"></translation>
+        <translation>Backups</translation>
     </message>
 </context>
 <context>
@@ -1802,6 +1806,10 @@ Sicher, dass das gewollt ist?</translation>
     <message>
         <source>Very Strong</source>
         <translation>Sehr stark</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">Bildschirmtastatur</translation>
     </message>
 </context>
 <context>
@@ -1876,9 +1884,20 @@ Sicher, dass das gewollt ist?</translation>
         <source>For recovery mode, hold SHIFT
 click mouse
 or press joystick...</source>
-        <translation type="unfinished">Für Wiederherstellungsmodus:
+        <translation>Für den Wiederherstellungsmodus
 UMSCHALT-Taste gedrückt halten bzw.
-Maustaste oder Joystick drücken&quot;</translation>
+Maustaste oder Joystick drücken …</translation>
+    </message>
+</context>
+<context>
+    <name>SilentBackupDlg</name>
+    <message>
+        <source>SilentBackup in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SilentBackup Cancelled</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1901,7 +1920,7 @@ Maustaste oder Joystick drücken&quot;</translation>
     </message>
     <message>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <source>Insert</source>
@@ -1957,11 +1976,11 @@ Maustaste oder Joystick drücken&quot;</translation>
     </message>
     <message>
         <source>Transparency</source>
-        <translation type="unfinished">Transparenz</translation>
+        <translation>Transparenz</translation>
     </message>
     <message>
         <source>  Tab   </source>
-        <translation type="unfinished"></translation>
+        <translation>  Tab   </translation>
     </message>
     <message>
         <source>Print
@@ -2067,23 +2086,23 @@ Untbr</translation>
     <name>adjustSizes</name>
     <message>
         <source>Adjust size of OSes</source>
-        <translation type="unfinished"></translation>
+        <translation>Betriebssystemgröße anpassen</translation>
     </message>
     <message>
         <source>Nominal (MB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nominal (MB)</translation>
     </message>
     <message>
         <source>Extra (MB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Extra (MB)</translation>
     </message>
     <message>
         <source>Total (MB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Insgesamt (MB)</translation>
     </message>
     <message>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Leeren</translation>
     </message>
     <message>
         <source>Balance</source>
@@ -2091,31 +2110,35 @@ Untbr</translation>
     </message>
     <message>
         <source>(*) non-expanding</source>
-        <translation type="unfinished"></translation>
+        <translation>(*) non-expanding</translation>
     </message>
     <message>
         <source>Capacity: 0MB</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapazität: 0MB</translation>
     </message>
     <message>
         <source>Free: 0MB </source>
-        <translation type="unfinished"></translation>
+        <translation>Frei: 0MB</translation>
     </message>
     <message>
         <source>Used: 0MB</source>
-        <translation type="unfinished"></translation>
+        <translation>Belegt: 0MB</translation>
     </message>
     <message>
         <source>Used</source>
-        <translation type="unfinished"></translation>
+        <translation>Belegt</translation>
     </message>
     <message>
         <source>Free</source>
-        <translation type="unfinished"></translation>
+        <translation>Frei</translation>
     </message>
     <message>
         <source>Capacity</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapazität</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">Bildschirmtastatur</translation>
     </message>
 </context>
 <context>
@@ -2135,6 +2158,10 @@ Untbr</translation>
     <message>
         <source>Description</source>
         <translation>Beschreibung</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">Bildschirmtastatur</translation>
     </message>
 </context>
 <context>
@@ -2225,6 +2252,10 @@ Untbr</translation>
     <message>
         <source>Description</source>
         <translation>Beschreibung</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">Bildschirmtastatur</translation>
     </message>
 </context>
 <context>

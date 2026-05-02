@@ -1673,6 +1673,10 @@ Are you sure?</source>
 這將會在下次開機抹除您所有的作業系統。
 您確定嗎？</translation>
     </message>
+    <message>
+        <source>silentbacku&amp;p</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OsGroup</name>
@@ -1787,6 +1791,10 @@ Are you sure?</source>
         <source>Very Strong</source>
         <translation>非常強</translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">虛擬鍵盤</translation>
+    </message>
 </context>
 <context>
     <name>ProgressSlideshowDialog</name>
@@ -1860,6 +1868,17 @@ Are you sure?</source>
         <source>For recovery mode, hold SHIFT
 click mouse
 or press joystick...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SilentBackupDlg</name>
+    <message>
+        <source>SilentBackup in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SilentBackup Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2100,6 +2119,10 @@ Break</translation>
         <source>Capacity</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">虛擬鍵盤</translation>
+    </message>
 </context>
 <context>
     <name>backupdialog</name>
@@ -2118,6 +2141,10 @@ Break</translation>
     <message>
         <source>Description</source>
         <translation>描述</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">虛擬鍵盤</translation>
     </message>
 </context>
 <context>
@@ -2208,6 +2235,10 @@ Break</translation>
     <message>
         <source>Description</source>
         <translation>描述</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">虛擬鍵盤</translation>
     </message>
 </context>
 <context>

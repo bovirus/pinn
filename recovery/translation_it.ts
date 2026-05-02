@@ -1723,6 +1723,10 @@ Are you sure?</source>
 Questo cancellerà tutti i SO al prossimo avvio.
 Vuoi proseguire?</translation>
     </message>
+    <message>
+        <source>silentbacku&amp;p</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OsGroup</name>
@@ -1837,6 +1841,10 @@ Vuoi proseguire?</translation>
         <source>Very Strong</source>
         <translation>Molto elevata</translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">Tastiera virtuale</translation>
+    </message>
 </context>
 <context>
     <name>ProgressSlideshowDialog</name>
@@ -1913,6 +1921,17 @@ or press joystick...</source>
         <translation>Per la modalità di ripristino, tieni premuto MAIUSC
 +clic del mouse
 +oppure premi il joystick...</translation>
+    </message>
+</context>
+<context>
+    <name>SilentBackupDlg</name>
+    <message>
+        <source>SilentBackup in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SilentBackup Cancelled</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2152,6 +2171,10 @@ Verifica la password</translation>
         <source>Capacity</source>
         <translation>Capacità</translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">Tastiera virtuale</translation>
+    </message>
 </context>
 <context>
     <name>backupdialog</name>
@@ -2170,6 +2193,10 @@ Verifica la password</translation>
     <message>
         <source>Description</source>
         <translation>Descrizione</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">Tastiera virtuale</translation>
     </message>
 </context>
 <context>
@@ -2260,6 +2287,10 @@ Verifica la password</translation>
     <message>
         <source>Description</source>
         <translation>Descrizione</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished">Tastiera virtuale</translation>
     </message>
 </context>
 <context>

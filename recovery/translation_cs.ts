@@ -1674,6 +1674,10 @@ Are you sure?</source>
 Toto vymaže všechny vaše systémy při dalším startu.
 Jste si jistý?</translation>
     </message>
+    <message>
+        <source>silentbacku&amp;p</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OsGroup</name>
@@ -1789,6 +1793,10 @@ Jste si jistý?</translation>
         <source>Very Strong</source>
         <translation>Velmi Silné</translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ProgressSlideshowDialog</name>
@@ -1865,6 +1873,17 @@ or press joystick...</source>
         <translation>Pro obnovovací mód, stiskni SHIFT
 klikni myší
 nebo stiskni joystick...</translation>
+    </message>
+</context>
+<context>
+    <name>SilentBackupDlg</name>
+    <message>
+        <source>SilentBackup in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SilentBackup Cancelled</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2102,6 +2121,10 @@ Break</source>
         <source>Capacity</source>
         <translation>Kapacita</translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>backupdialog</name>
@@ -2120,6 +2143,10 @@ Break</source>
     <message>
         <source>Description</source>
         <translation>Popis</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2210,6 +2237,10 @@ Break</source>
     <message>
         <source>Description</source>
         <translation>Popis</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
