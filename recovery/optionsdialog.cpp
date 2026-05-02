@@ -234,6 +234,7 @@ void OptionsDialog::write()
 
     cb_entry(silentinstall);
     cb_entry(silentreinstallnewer);
+    cb_entry(silentbackup);
 
     if (!select.isEmpty())
         contents += "select=\""+select+"\" ";
@@ -347,7 +348,7 @@ bool OptionsDialog::recognise(const QString & key, const QString &value)
 
     cb_entry(silentinstall);
     cb_entry(silentreinstallnewer);
-
+    cb_entry(silentbackup);
 
     cb_entry(no_default_source);
     cb_entry(disableusbimages);

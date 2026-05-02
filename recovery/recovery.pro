@@ -38,6 +38,7 @@ SOURCES += \
     rightbuttonfilter.cpp \
     json.cpp \
     multiimagewritethread.cpp \
+    silentbackupdlg.cpp \
     util.cpp \
     twoiconsdelegate.cpp \
     bootselectiondialog.cpp \
@@ -96,6 +97,7 @@ HEADERS  += \
     rightbuttonfilter.h \
     json.h \
     multiimagewritethread.h \
+    silentbackupdlg.h \
     util.h \
     twoiconsdelegate.h \
     bootselectiondialog.h \
