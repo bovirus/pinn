@@ -1672,6 +1672,10 @@ Are you sure?</source>
 다음 번 부팅 때 모든 운영체제를 지웁니다.
 이 작업을 진행하시겠습니까?</translation>
     </message>
+    <message>
+        <source>silentbacku&amp;p</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OsGroup</name>
@@ -1786,6 +1790,10 @@ Are you sure?</source>
         <source>Very Strong</source>
         <translation>매우 강함</translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ProgressSlideshowDialog</name>
@@ -1859,6 +1867,17 @@ Are you sure?</source>
         <source>For recovery mode, hold SHIFT
 click mouse
 or press joystick...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SilentBackupDlg</name>
+    <message>
+        <source>SilentBackup in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SilentBackup Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2096,6 +2115,10 @@ Break</source>
         <source>Capacity</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>backupdialog</name>
@@ -2114,6 +2137,10 @@ Break</source>
     <message>
         <source>Description</source>
         <translation>설명</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2204,6 +2231,10 @@ Break</source>
     <message>
         <source>Description</source>
         <translation>설명</translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

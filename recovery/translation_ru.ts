@@ -1671,6 +1671,10 @@ This will erase all your OSes on next boot.
 Are you sure?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>silentbacku&amp;p</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OsGroup</name>
@@ -1785,6 +1789,10 @@ Are you sure?</source>
         <source>Very Strong</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ProgressSlideshowDialog</name>
@@ -1858,6 +1866,17 @@ Are you sure?</source>
         <source>For recovery mode, hold SHIFT
 click mouse
 or press joystick...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SilentBackupDlg</name>
+    <message>
+        <source>SilentBackup in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SilentBackup Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2095,6 +2114,10 @@ Break</source>
         <source>Capacity</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Virtual Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>backupdialog</name>
@@ -2112,6 +2135,10 @@ Break</source>
     </message>
     <message>
         <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2202,6 +2229,10 @@ Break</source>
     </message>
     <message>
         <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Virtual Keyboard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
