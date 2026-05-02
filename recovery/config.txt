@@ -5,11 +5,6 @@ fixup_file=fixup.dat
 disable_overscan=1
 initramfs pinn.rfs
 
-hdmi_group=2
-hdmi_mode=82 #1920x1080
-#hdmi_mode=62 #1920x1200
-
-
 [HDMI1]
 hdmi_force_hotplug=1
 
@@ -18,13 +13,17 @@ start_file=start4.elf
 fixup_file=fixup4.dat
 max_framebuffers=2
 
-[pi5]
+[board-type=0x17]
 kernel=kernel8.img
 overlay_prefix=overlays6/
 dtoverlay=vc4-kms-v3d
 max_framebuffers=2
 
 [cm5]
+kernel=kernel8.img
+overlay_prefix=overlays6/
+dtoverlay=vc4-kms-v3d
+max_framebuffers=2
 dtoverlay=dwc2,dr_mode=host
 dtparam=ant2
 dtparam=pciex1_gen=3

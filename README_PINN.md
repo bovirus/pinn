@@ -5,7 +5,7 @@
 
 The latest version of [PINN](http://downloads.sourceforge.net/projects/pinn/pinn-lite.zip) can be downloaded from [sourceforge](http://www.sourceforge.net/projects/pinn).
 
-This README relates to v3.8
+This README relates to v3.9.9
 
 <sup>(PINN-lite does not include any operating systems at all. It is more akin to `NOOBS-lite` rather than `NOOBS`. For that reason, the filename that you download is called `pinn-lite.zip`. More recently, `pinn.zip` has also been made available for download which includes versions of Raspbian and LibreELEC.)</sup>
 
@@ -502,7 +502,7 @@ In addition to specifying a list of OS names, some reserved words are also avail
 
 - **silentreinstallnewer**: This is an advanced option and potentially _**Destructive to your data!**_. Do not use unless you are fully aware of its consequences. See [Auto-Reinstalling OSes](#auto-reinstalling-oses)
 
-- **silentbackup**: In conjunction with the `forcetrigger` and `select` options, this will cuase PINN to automatically backup selected OSes on startup. It will then reboot into the last used OS. This is a useful means to backup your OS whilst it is offline. See [Silent Backup](#how-to-automatically-backup-an-os)
+- **silentbackup**: In conjunction with the `forcetrigger` and `select` options, this will cause PINN to automatically backup the OSes listed in the `select` parameter on startup before automatically rebooting into the last used OS. This is a useful means to backup your OS whilst it is offline. See [Silent Backup](#how-to-automatically-backup-an-os)
 
 - **alt_image_source=\<url\>**: Provides the URL of an additional os_list_v3.json file indicating the location of other OSes that can be downloaded from the Internet. Multiple instances of this option can be used.
 
@@ -989,12 +989,16 @@ When an OS is backed up, an sha512sum signature checksum is calculated for each 
 ## How to automatically backup an OS
 
 The `silentbackup` option makes use of PINN's OS backup feature to do an unattended offline OS backup initiated from the OS itself. The `forcetrigger` option also needs to be set and the `select` option should be used to determine which installed OSes shall be backed up.  
-A suitably formatted USB drive needs to be fitted with the mandatory `os` folder to store the backup on.  
+A suitably formatted USB drive needs to be fitted with the mandatory `os` folder to store the backup in.  
 A cancel dialog is shown for 10 seconds before the backup is made. This is to allow the silentBackup to be manually aborted or altered.
 Unlike the normal backup option, there is no user input and it cannot be assumed that the network will be connected, so the current time may not be known. For these reasons, the date of the backed up OS is replaced with `#silentbackup` and any existing backup of the same name is first deleted. There is therefore only one backup of each OS that is continually replaced on each boot. If a more permanent backup is required, these folders should be backed up to another drive.
 
 After the backup is made, the RPi will be rebooted into the last OS that was run.
 
+Setting the `silentbackup` option will cause the selected OSes to be backed up on EVERY reboot, unless user intervention is used to cancel the backup. This will cause startup to be significantly delayed.
+If a backup is required only on the next reboot, an alternative is to create a file called `silentbackup` on PINN's RECOVERY partition (#1). PINN will recognise this file, perform the backup and then delete the file to prevent the backup from re-occurring. 
+
+As always, please check your backups before reying on them.
 
 ## Restoring Backups
 
